@@ -1,194 +1,225 @@
 {
-  "wallpapers": [
-    {
-      "id": 1,
-      "name": "Gundam Sky Fly",
-      "category": "Anime",
-      "image": "images/wallpapers/gundam-anime-8k-wallpaper-uhdpaper.com-724@3@a.jpg",
-      "resolution": "8K"
-    },
-    {
-      "id": 2,
-      "name": "Neon City",
-      "category": "urbano",
-      "image": "images/wallpapers/city-lights-night-scenery-4k-wallpaper-uhdpaper.com-545@5@f.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 3,
-      "name": "Fluxo Digital",
-      "category": "tecnologia",
-      "image": "images/wallpapers/140251_adapted_1080x2520.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 4,
-      "name": "Sung Jinwoo Dark Aura",
-      "category": "Anime",
-      "image": "images/wallpapers/sung-jinwoo-solo-leveling-anime-4k-wallpaper-uhdpaper.com-142@5@d.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 5,
-      "name": "Ashes of Captaim America",
-      "category": "Filmes",
-      "image": "images/wallpapers/wp2111258.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 6,
-      "name": "Silence",
-      "category": "espaço",
-      "image": "images/wallpapers/94536_original_2560x1440.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 7,
-      "name": "Sunset Mountains",
-      "category": "Paisagens",
-      "image": "images/wallpapers/sunset-mountain-beautiful-digital-art-scenery-4k-wallpaper-uhdpaper.com-183@1@n.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 8,
-      "name": "Cyberpunk Girl",
-      "category": "Games",
-      "image": "images/wallpapers/cyberpunk-girl-sci-fi-digital-art-4k-wallpaper-uhdpaper.com-376@5@d.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 9,
-      "name": "Snowy Mountain Sunrise",
-      "category": "natureza",
-      "image": "images/wallpapers/snowy-mountain-sunrise-scenery-4k-wallpaper-uhdpaper.com-346@5@c.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 10,
-      "name": "Sunset City Clouds",
-      "category": "Anime",
-      "image": "images/wallpapers/sunset-city-clouds-sky-anime-art-scenery-4k-wallpaper-uhdpaper.com-155@5@b.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 11,
-      "name": "White Lamborghini",
-      "category": "Carros",
-      "image": "images/wallpapers/131872_original_4160x6240.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 12,
-      "name": "Plasma Waves",
-      "category": "Efeitos Visuais",
-      "image": "images/wallpapers/Vivid-Line Wallpaper Without Plasma Logo.png",
-      "resolution": "FHD"
-    },
-    {
-      "id": 13,
-      "name": "Master Chief Helmet",
-      "category": "Games",
-      "image": "images/wallpapers/wallpaperflare.com_wallpaper (8).jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 14,
-      "name": "Tree Grass Field",
-      "category": "natureza",
-      "image": "images/wallpapers/sunrise-grass-field-tree-scenery-4k-wallpaper-uhdpaper.com-284@5@d.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 15,
-      "name": "A Way for Sunset",
-      "category": "abstrato",
-      "image": "images/wallpapers/sunset-horizon-standing-alone-mountains-scenery-ai-art-4k-wallpaper-uhdpaper.com-715@1@l.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 16,
-      "name": "Water Drops",
-      "category": "natureza",
-      "image": "images/wallpapers/2160x1920-Wallpaper_AppsApk_-124.jpg",
-      "resolution": "4K"
-    },
-    {
-      "id": 17,
-      "name": "Beach Sunset",
-      "category": "natureza",
-      "image": "images/wallpapers/beach-waves-sunset-scenery-4k-wallpaper-uhdpaper.com-570@5@e.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 18,
-      "name": "Vaporwave",
-      "category": "abstrato",
-      "image": "images/wallpapers/909284.png",
-      "resolution": "FHD"
-    },
-    {
-      "id": 19,
-      "name": "Blue Cicle",
-      "category": "Wall",
-      "image": "images/wallpapers/b72edd732dbc4052f42660064fd462c9.jpg",
-      "resolution": "FHD"
-    },
-    {
-      "id": 20,
-      "name": "Autumn",
-      "category": "natureza",
-      "image": "images/wallpapers/autumn-landscape-4k-grandfailure-3840×2160.jpg",
-      "resolution": "4K"
-    }
-  ],
-  "categories": [
-    {
-      "id": "natureza",
-      "name": "Natureza",
-      "icon": "🌿",
-      "description": "Paisagens, florestas, oceanos e montanhas",
-      "count": 248
-    },
-    {
-      "id": "abstrato",
-      "name": "Abstrato",
-      "icon": "🎨",
-      "description": "Arte digital, formas geométricas e gradientes",
-      "count": 312
-    },
-    {
-      "id": "tecnologia",
-      "name": "Tecnologia",
-      "icon": "💻",
-      "description": "UI designs, circuitos e futurismo digital",
-      "count": 186
-    },
-    {
-      "id": "minimalista",
-      "name": "Minimalista",
-      "icon": "✨",
-      "description": "Design limpo, cores suaves e simplicidade",
-      "count": 157
-    },
-    {
-      "id": "urbano",
-      "name": "Urbano",
-      "icon": "️",
-      "description": "Cidades, arquitetura e vida noturna",
-      "count": 203
-    },
-    {
-      "id": "espaco",
-      "name": "Espaço",
-      "icon": "",
-      "description": "Galáxias, nebulosas e paisagens cósmicas",
-      "count": 175
-    }
-  ],
-  "stats": {
-    "totalWallpapers": 1281,
-    "totalDownloads": 54700,
-    "totalCategories": 6,
-    "activeUsers": 8930
-  }
+ "wallpapers": [
+{
+ "id":1,
+ "name":"Gundam Sky Fly",
+ "category":"Anime",
+ "image":"images/wallpapers/gundam-anime-8k-wallpaper-uhdpaper.com-724@3@a.jpg",
+ "resolution":"8K"
+},
+{
+ "id":2,
+ "name":"Neon City",
+ "category":"urbano",
+ "image":"images/wallpapers/city-lights-night-scenery-4k-wallpaper-uhdpaper.com-545@5@f.jpg",
+ "resolution":"4K"
+},
+{
+ "id":3,
+ "name":"Fluxo Digital",
+ "category":"tecnologia",
+ "image":"images/wallpapers/140251_adapted_1080x2520.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":4,
+ "name":"Sung Jinwoo Dark Aura",
+ "category":"Anime",
+ "image":"images/wallpapers/sung-jinwoo-solo-leveling-anime-4k-wallpaper-uhdpaper.com-142@5@d.jpg",
+ "resolution":"4K"
+},
+{
+ "id":5,
+ "name":"Ashes of Captain America",
+ "category":"Filmes",
+ "image":"images/wallpapers/wp2111258.jpg",
+ "resolution":"4K"
+},
+{
+ "id":6,
+ "name":"Silence",
+ "category":"espaço",
+ "image":"images/wallpapers/94536_original_2560x1440.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":7,
+ "name":"Sunset Mountains",
+ "category":"Paisagens",
+ "image":"images/wallpapers/sunset-mountain-beautiful-digital-art-scenery-4k-wallpaper-uhdpaper.com-183@1@n.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":8,
+ "name":"Cyberpunk Girl",
+ "category":"Games",
+ "image":"images/wallpapers/cyberpunk-girl-sci-fi-digital-art-4k-wallpaper-uhdpaper.com-376@5@d.jpg",
+ "resolution":"4K"
+},
+{
+ "id":9,
+ "name":"Snowy Mountain Sunrise",
+ "category":"natureza",
+ "image":"images/wallpapers/snowy-mountain-sunrise-scenery-4k-wallpaper-uhdpaper.com-346@5@c.jpg",
+ "resolution":"4K"
+},
+{
+ "id":10,
+ "name":"Sunset City Clouds",
+ "category":"Anime",
+ "image":"images/wallpapers/sunset-city-clouds-sky-anime-art-scenery-4k-wallpaper-uhdpaper.com-155@5@b.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":11,
+ "name":"White Lamborghini",
+ "category":"Carros",
+ "image":"images/wallpapers/131872_original_4160x6240.jpg",
+ "resolution":"4K"
+},
+{
+ "id":12,
+ "name":"Plasma Waves",
+ "category":"Efeitos Visuais",
+ "image":"images/wallpapers/Vivid-Line Wallpaper Without Plasma Logo.png",
+ "resolution":"FHD"
+},
+{
+ "id":13,
+ "name":"Master Chief Helmet",
+ "category":"Games",
+ "image":"images/wallpapers/wallpaperflare.com_wallpaper (8).jpg",
+ "resolution":"4K"
+},
+{
+ "id":14,
+ "name":"Tree Grass Field",
+ "category":"natureza",
+ "image":"images/wallpapers/sunrise-grass-field-tree-scenery-4k-wallpaper-uhdpaper.com-284@5@d.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":15,
+ "name":"A Way for Sunset",
+ "category":"abstrato",
+ "image":"images/wallpapers/sunset-horizon-standing-alone-mountains-scenery-ai-art-4k-wallpaper-uhdpaper.com-715@1@l.jpg",
+ "resolution":"4K"
+},
+{
+ "id":16,
+ "name":"Water Drops",
+ "category":"natureza",
+ "image":"images/wallpapers/2160x1920-Wallpaper_AppsApk_-124.jpg",
+ "resolution":"4K"
+},
+{
+ "id":17,
+ "name":"Beach Sunset",
+ "category":"natureza",
+ "image":"images/wallpapers/beach-waves-sunset-scenery-4k-wallpaper-uhdpaper.com-570@5@e.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":18,
+ "name":"Vaporwave",
+ "category":"abstrato",
+ "image":"images/wallpapers/909284.png",
+ "resolution":"FHD"
+},
+{
+ "id":19,
+ "name":"Blue Cicle",
+ "category":"Wall",
+ "image":"images/wallpapers/b72edd732dbc4052f42660064fd462c9.jpg",
+ "resolution":"FHD"
+},
+{
+ "id":20,
+ "name":"Autumn",
+ "category":"natureza",
+ "image":"images/wallpapers/autumn-landscape-4k-grandfailure-3840×2160.jpg",
+ "resolution":"4K"
+}
+],
+ "categories":[
+{
+ "id":"natureza",
+ "name":"Natureza",
+ "icon":"🌿",
+ "description":"Paisagens, florestas, oceanos e montanhas",
+ "count":0
+},
+{
+ "id":"abstrato",
+ "name":"Abstrato",
+ "icon":"🎨",
+ "description":"Arte digital, formas geométricas e gradientes",
+ "count":312
+},
+{
+ "id":"tecnologia",
+ "name":"Tecnologia",
+ "icon":"💻",
+ "description":"UI designs, circuitos e futurismo digital",
+ "count":186
+},
+{
+ "id":"minimalista",
+ "name":"Minimalista",
+ "icon":"✨",
+ "description":"Design limpo, cores suaves e simplicidade",
+ "count":157
+},
+{
+ "id":"urbano",
+ "name":"Urbano",
+ "icon":"️🏙️",
+ "description":"Cidades, arquitetura e vida noturna",
+ "count":203
+},
+{
+ "id":"espaco",
+ "name":"Espaço",
+ "icon":"🚀",
+ "description":"Galáxias, nebulosas e paisagens cósmicas",
+ "count":175
+}
+],
+ "stats":{
+ "totalWallpapers":20,
+ "totalDownloads":0,
+ "totalCategories":5,
+ "activeUsers":0,
+ "totalUsers":0
+},
+ "music":[
+{
+ "id":1,
+ "title":"Japan",
+ "artist":"Throttle [Monstercat Release]",
+ "cover":"images/music/japan-cover.jpg",
+ "src":"audio/Throttle - Japan [Monstercat Release].mp3"
+},
+{
+ "id":2,
+ "title":"Ether",
+ "artist":"Jakob Ahlbom",
+ "cover":"images/music/neon-cover.jpg",
+ "src":"audio/Jakob Ahlbom - Ether.mp3"
+},
+{
+ "id":3,
+ "title":"Perspective",
+ "artist":"Barnes BLVD.",
+ "cover":"images/music/cyber-cover.jpg",
+ "src":"audio/Barnes BLVD. - Perspective.mp3"
+},
+{
+ "id":4,
+ "title":"Sangria",
+ "artist":"Alx Beats",
+ "cover":"images/music/midnight-cover.jpg",
+ "src":"audio/Alx Beats - Sangria.mp3"
+}
+]
 }
