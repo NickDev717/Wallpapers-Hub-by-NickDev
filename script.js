@@ -253,82 +253,81 @@ function toggleComments() {
 async function submitComment(event) {
     event.preventDefault();
     
+    const form = document.getElementById('commentsForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
+    
     const name = document.getElementById('commentName').value;
     const email = document.getElementById('commentEmail').value;
     const text = document.getElementById('commentText').value;
     
-    // Prepare email data
-    const subject = `Novo comentário - Wallpapers Hub`;
-    const body = `Nome: ${name}%0D%0AEmail: ${email}%0D%0A%0D%0AComentário:%0D%0A${text}`;
+    // Desabilitar botão e mostrar loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    formStatus.style.display = 'block';
+    formStatus.textContent = 'Enviando comentário...';
+    formStatus.style.color = 'rgba(255,255,255,0.7)';
     
-    // Option 1: Using mailto (opens email client)
-    window.location.href = `mailto:defaull7contato@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
-    
-    // Option 2: If you want to use a form service like Formspree (recommended for production)
-    // Uncomment the code below and replace YOUR_FORM_ID with your Formspree form ID
-    /*
     try {
-        const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        const response = await fetch(form.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 name: name,
                 email: email,
                 message: text,
-                _replyto: email
+                _subject: 'Novo comentário - Wallpapers Hub',
+                _cc: 'defaull7contato@gmail.com'
             })
         });
         
         if (response.ok) {
-            showNotification('Comentário enviado com sucesso! ✓', 'success');
-            document.getElementById('commentsForm').reset();
+            // Sucesso
+            formStatus.textContent = '✓ Comentário enviado com sucesso!';
+            formStatus.style.color = '#4ade80';
+            
+            // Adicionar aos comentários locais
+            const comment = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                text: text,
+                date: new Date().toLocaleString('pt-BR')
+            };
+            comments.unshift(comment);
+            
+            // Limpar formulário
+            form.reset();
+            
+            // Recarregar lista de comentários
             loadComments();
+            
+            // Mostrar notificação
+            showNotification('Comentário enviado com sucesso! ✓', 'success');
+            
+            // Resetar botão após 3 segundos
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar comentário';
+                formStatus.style.display = 'none';
+            }, 3000);
+            
         } else {
             throw new Error('Erro ao enviar');
         }
     } catch (error) {
         console.error('Erro:', error);
+        formStatus.textContent = '✗ Erro ao enviar. Tente novamente.';
+        formStatus.style.color = '#f87171';
         showNotification('Erro ao enviar comentário. Tente novamente.', 'error');
-    }
-    */
-    
-    // Add to local comments array (for display)
-    const comment = {
-        id: Date.now(),
-        name: name,
-        email: email,
-        text: text,
-        date: new Date().toLocaleString('pt-BR')
-    };
-    comments.unshift(comment);
-    
-    // Show success notification
-    showNotification('Comentário enviado com sucesso! ✓', 'success');
-    
-    // Clear form
-    document.getElementById('commentsForm').reset();
-    
-    // Reload comments list
-    loadComments();
-}
-
-function loadComments() {
-    const list = document.getElementById('commentsList');
-    if (!list) return;
-    
-    if (comments.length === 0) {
-        list.innerHTML = `<div class="no-comments"><p>Nenhum comentário ainda.</p><small>Seja o primeiro a comentar!</small></div>`;
-    } else {
-        list.innerHTML = comments.map(comment => `
-            <div class="comment-item">
-                <div class="comment-header">
-                    <span class="comment-name">${comment.name}</span>
-                </div>
-                <div class="comment-text">${comment.text}</div>
-            </div>
-        `).join('');
+        
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Enviar comentário';
+        }, 3000);
     }
 }
 
