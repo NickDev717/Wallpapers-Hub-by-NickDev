@@ -1683,7 +1683,7 @@ function togglePlay() {
         playBtn.textContent = "▶";
     } else {
         audioPlayer.play();
-        playBtn.textContent = "";
+        playBtn.textContent = "⏸";
     }
     isPlaying = !isPlaying;
 }
