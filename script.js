@@ -168,7 +168,9 @@ const translations = {
         comment_sent: 'Enviado com sucesso!',
         comment_error: 'Erro ao enviar. Tente novamente.',
         notif_login_success: 'Login realizado com sucesso!',
-        notif_logout: 'Você saiu da sua conta',
+        notif_logout: 'Sair',
+        notif_logout_error: 'Erro ao sair da conta',
+        notif_logout_success: 'Você saiu da sua conta',
         notif_account_created: 'Conta criada! Verifique seu email.',
         notif_verify_email: 'Por favor, verifique seu email',
         notif_verify_before_login: 'Verifique seu email antes de entrar',
@@ -328,7 +330,9 @@ const translations = {
         comment_sent: 'Sent successfully!',
         comment_error: 'Error sending. Try again.',
         notif_login_success: 'Login successful!',
-        notif_logout: 'You have been logged out',
+        notif_logout: 'Logout',
+        notif_logout_error: 'Error when logging out of account',
+        notif_logout_success: 'You have been logged out',
         notif_account_created: 'Account created! Check your email.',
         notif_verify_email: 'Please verify your email',
         notif_verify_before_login: 'Verify your email before signing in',
@@ -478,7 +482,9 @@ const translations = {
         comment_sent: '¡Enviado con éxito!',
         comment_error: 'Error al enviar. Intenta de nuevo.',
         notif_login_success: '¡Inicio de sesión exitoso!',
-        notif_logout: 'Has cerrado sesión',
+        notif_logout: 'Salir',
+        notif_logout_error: 'Error al cerrar sesión en la cuenta',
+        notif_logout_success: '¡Cierre de sesión exitoso!',
         notif_account_created: '¡Cuenta creada! Verifica tu correo.',
         notif_verify_email: 'Por favor, verifica tu correo',
         notif_verify_before_login: 'Verifica tu correo antes de entrar',
@@ -932,7 +938,7 @@ async function logout() {
         await auth.signOut();
         currentUser = null;
         closeProfileModal();
-        showNotification(t('notif_logout'), "info");
+        showNotification(t('notif_logout_success'), "info");
         updateGalleryFavoriteButtons();
         renderFavorites();
     } catch (error) {
