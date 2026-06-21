@@ -1,218 +1,483 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="images/Defaull7 Transparent.ico">
-    <title>Wallpapers Hub — Papéis de Parede Premium</title>
-    <meta name="description" content="Explore a maior coleção de papéis de parede premium para desktop e mobile. Encontre wallpapers 4K, Full HD e exclusivos para personalizar seus dispositivos.">
-    <meta name="author" content="NickDev">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Header / Navbar -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" as="image" href="images/hero-bg.jpg" />
+    <link rel="icon" type="image/png" href="images/Wallpaper 7 fundo transp.png" sizes="32x32" />
+    <title>Wallpapers Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("1timzwfBVtlk7O-8L"); // Chave pública do EmailJS
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
-        <div class="logo" onclick="scrollToTop()">
-            <img src="images/Defaull7 Transparent.png" alt="WallpapersHub Logo" class="logo-img">
-            <div class="logo-text">Wallpapers<span>Hub</span></div>
+        <div class="navbar-left">
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo" onclick="scrollToTop()">
+                <img src="images/Wallpaper 7 fundo transp.png" alt="WallpapersHub Logo" class="logo-img" width="40" height="40" />
+                <div class="logo-text">Wallpapers<span>Hub</span></div>
+            </div>
         </div>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#gallery">Galeria</a></li>
-            <li><a href="#contact">Contato</a></li>
-        </ul>
-        <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
+
+        <div class="navbar-right">
+            <!-- Seletor de Idioma -->
+            <div class="language-selector">
+                <button class="btn-language" onclick="toggleLanguageMenu()">
+                    <span class="language-icon"></span>
+                    <span class="language-current" id="languageCurrent">PT-BR</span>
+                    <span class="language-arrow">▾</span>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <button class="language-option active" data-lang="pt-BR" onclick="changeLanguage('pt-BR')">
+                        <span class="language-flag">🇧🇷</span> Português
+                    </button>
+                    <button class="language-option" data-lang="en-US" onclick="changeLanguage('en-US')">
+                        <span class="language-flag">🇺🇸</span> English
+                    </button>
+                    <button class="language-option" data-lang="es-ES" onclick="changeLanguage('es-ES')">
+                        <span class="language-flag">🇪🇸</span> Español
+                    </button>
+                </div>
+            </div>
+
+            <!-- Auth Buttons (não logado) -->
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-login" id="btnLoginNav" data-i18n="btn_login">Login</button>
+                <button class="btn-signup" id="btnSignupNav" data-i18n="btn_signup">Criar conta</button>
+            </div>
+
+            <!-- Profile (logado) -->
+            <div class="profile-container" id="profileContainer" style="display: none;">
+                <button class="profile-btn" id="profileBtn">
+                    <img src="" alt="Avatar" class="profile-avatar" id="profileAvatar">
+                    <span class="profile-name" id="profileName">User</span>
+                    <span class="profile-arrow">▾</span>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <img src="" alt="Avatar" class="profile-dropdown-avatar" id="profileDropdownAvatar">
+                        <div>
+                            <div class="profile-dropdown-name" id="profileDropdownName">User</div>
+                            <div class="profile-dropdown-email" id="profileDropdownEmail">user@email.com</div>
+                        </div>
+                    </div>
+                    <button class="profile-dropdown-item" id="menuProfile">
+                        <span class="profile-icon">👤</span>
+                        <span data-i18n="profile_tab">Perfil</span>
+                    </button>
+                    <button class="profile-dropdown-item" id="menuFavorites">
+                        <span class="profile-icon">♡</span>
+                        <span data-i18n="favorites_tab">Favoritos</span>
+                        <span class="profile-badge" id="favBadge">0</span>
+                    </button>
+                    <div class="profile-dropdown-divider"></div>
+                    <button class="profile-dropdown-item" id="menuSettings">
+                        <span class="profile-icon">⚙️</span>
+                        <span data-i18n="settings_tab">Configurações</span>
+                    </button>
+                    <button class="profile-dropdown-item logout-item" id="menuLogout">
+                        <span class="profile-icon">🚪</span>
+                        <span data-i18n="notif_logout">Sair</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- ===== DRAWER MENU (Hamburguer) ===== -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenu()"></div>
+    <aside class="drawer-menu" id="drawerMenu">
+        <div class="drawer-header">
+            <img src="images/Wallpaper 7 fundo transp.png" alt="WallpapersHub Logo" class="logo-img" width="40" height="40" />
+            <div class="logo-text">Wallpapers<span>Hub</span></div>
+            <button class="drawer-close" onclick="toggleMenu()">✕</button>
+        </div>
+        <nav class="drawer-nav">
+            <a href="#home" class="drawer-link active" data-i18n="nav_home" onclick="toggleMenu()">Home</a>
+            <a href="#gallery" class="drawer-link" data-i18n="nav_gallery" onclick="toggleMenu()">Galeria</a>
+            <a href="#contact" class="drawer-link" data-i18n="nav_contact" onclick="toggleMenu()">Contato</a>
+        </nav>
+        <div class="drawer-footer">
+            <p>© 2026 Wallpapers Hub by NickDev</p>
+        </div>
+    </aside>
+
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Welcome</h1>
-            <p>Wallpapers Hub — Explore Papéis de Parede Premium</p>
-            <a href="#gallery" class="hero-btn">Explorar Coleção</a>
+            <h1 data-i18n="hero_title">Wallpapers Hub</h1>
+            <p data-i18n="hero_subtitle">Explore Papéis de Parede Premium em 4K e 8K</p>
+            <a href="#gallery" class="hero-btn" data-i18n="hero_button">Explorar Coleção</a>
         </div>
 
-        <!-- Hero Slider -->
+        <!-- Slider -->
         <div class="hero-slider">
             <button class="slider-btn" onclick="prevSlide()">❮</button>
-            <div class="slider-track" id="sliderTrack">
-                <!-- Slides serão inseridos via JavaScript -->
-            </div>
+            <div class="slider-track" id="sliderTrack"></div>
             <button class="slider-btn" onclick="nextSlide()">❯</button>
             <div class="slider-dots" id="sliderDots"></div>
         </div>
     </section>
 
-    <!-- Gallery Section -->
+    <!-- ===== GALLERY ===== -->
     <section class="gallery-section" id="gallery">
         <div class="section-title animate-on-scroll">
-            <h2>Galeria Completa</h2>
-            <p>Navegue por toda a nossa coleção</p>
+            <h2 data-i18n="gallery_title">Galeria Completa</h2>
+            <p data-i18n="gallery_subtitle">Navegue por toda a nossa coleção</p>
             <div class="title-line"></div>
         </div>
 
-        <!-- Filter Bar -->
-        <div class="filter-bar animate-on-scroll">
-            <button class="filter-btn active" onclick="filterGallery('all', this)">Todos</button>
-            <button class="filter-btn" onclick="filterGallery('natureza', this)">🌿 Natureza</button>
-            <button class="filter-btn" onclick="filterGallery('abstrato', this)">🎨 Abstrato</button>
-            <button class="filter-btn" onclick="filterGallery('tecnologia', this)">💻 Tecnologia</button>
-            <button class="filter-btn" onclick="filterGallery('minimalista', this)">✨ Minimalista</button>
-            <button class="filter-btn" onclick="filterGallery('urbano', this)">🏙️ Urbano</button>
-            <button class="filter-btn" onclick="filterGallery('espaco', this)">🚀 Espaço</button>
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterByOrientation('all', this)" data-i18n="filter_orientation_all">🔄 Todos</button>
+            <button class="filter-btn" onclick="filterByOrientation('portrait', this)" data-i18n="filter_portrait">📱 Retrato</button>
+            <button class="filter-btn" onclick="filterByOrientation('landscape', this)" data-i18n="filter_landscape">🖥️ Paisagem</button>
+            <button class="filter-btn" onclick="filterGallery('Natureza', this)" data-i18n="filter_nature">🌿 Natureza</button>
+            <button class="filter-btn" onclick="filterGallery('Abstrato', this)" data-i18n="filter_abstract">🎨 Abstrato</button>
+            <button class="filter-btn" onclick="filterGallery('Tecnologia', this)" data-i18n="filter_tech">💻 Tecnologia</button>
+            <button class="filter-btn" onclick="filterGallery('Minimalista', this)" data-i18n="filter_minimal">✨ Minimalista</button>
+            <button class="filter-btn" onclick="filterGallery('Urbano', this)" data-i18n="filter_urban">🏙️ Urbano</button>
+            <button class="filter-btn" onclick="filterGallery('Espaço', this)" data-i18n="filter_space">🚀 Espaço</button>
+            <button class="filter-btn" onclick="filterGallery('Anime', this)" data-i18n="filter_anime">🎌 Anime</button>
+            <button class="filter-btn" onclick="filterGallery('Games', this)" data-i18n="filter_games">🎮 Games</button>
+            <button class="filter-btn" onclick="filterGallery('Filmes', this)" data-i18n="filter_movies">🎬 Filmes</button>
+            <button class="filter-btn" onclick="filterGallery('Carros', this)" data-i18n="filter_cars">🏎️ Carros</button>
         </div>
 
-        <!-- Gallery Grid -->
         <div class="gallery-grid" id="galleryGrid"></div>
 
-        <!-- Load More Button -->
         <div style="text-align: center; margin-top: 40px;">
-            <button class="hero-btn" id="loadMoreBtn" onclick="loadMore()">Carregar Mais Wallpapers</button>
+            <button class="hero-btn" id="loadMoreBtn" onclick="loadMore()" data-i18n="load_more">Carregar Mais Wallpapers</button>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
+    <!-- ===== STATS ===== -->
+    <section class="stats-section" id="stats">
         <div class="stats-grid">
-            <div class="stat-item animate-on-scroll">
-                <h3 id="stat1">0</h3>
-                <p>Wallpapers</p>
+            <div class="stat-item">
+                <h3 id="stat1">0+</h3>
+                <p data-i18n="stat_wallpapers">Wallpapers</p>
             </div>
-            <div class="stat-item animate-on-scroll">
-                <h3 id="stat2">0</h3>
-                <p>Downloads</p>
+            <div class="stat-item">
+                <h3 id="stat2">0+</h3>
+                <p data-i18n="stat_downloads">Downloads</p>
             </div>
-            <div class="stat-item animate-on-scroll">
+            <div class="stat-item">
                 <h3 id="stat3">0</h3>
-                <p>Categorias</p>
+                <p data-i18n="stat_categories">Categorias</p>
             </div>
-            <div class="stat-item animate-on-scroll">
-                <h3 id="stat4">0</h3>
-                <p>Usuários Ativos</p>
+            <div class="stat-item">
+                <h3 id="stat4">0+</h3>
+                <p data-i18n="stat_users">Usuários Ativos</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer" id="contact">
         <div class="footer-grid">
-            <div class="footer-col footer-brand">
-                <div class="logo-text footer-logo">Wallpapers<span>Hub</span></div>
-                <p>A maior coleção de papéis de parede premium. Encontre o wallpaper perfeito para o seu dispositivo com qualidade 4K e Full HD.</p>
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="images/Wallpaper 7 fundo transp.png" alt="WallpapersHub Logo" class="logo-img" width="40" height="40" />
+                    <div class="logo-text">Wallpapers<span>Hub</span></div>
+                </div>
+                <p data-i18n="footer_description">A maior coleção de papéis de parede premium. Encontre o wallpaper perfeito para o seu dispositivo com qualidade 4K e Full HD.</p>
             </div>
             <div class="footer-col">
-                <h4>Navegação</h4>
+                <h4 data-i18n="footer_navigation">Navegação</h4>
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#gallery">Galeria</a></li>
+                    <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                    <li><a href="#gallery" data-i18n="nav_gallery">Galeria</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Categorias</h4>
+                <h4 data-i18n="footer_categories">Categorias</h4>
                 <ul>
-                    <li><a href="#">Natureza</a></li>
-                    <li><a href="#">Abstrato</a></li>
-                    <li><a href="#">Tecnologia</a></li>
-                    <li><a href="#">Espaço</a></li>
+                    <li><a href="#" data-i18n="cat_nature">Natureza</a></li>
+                    <li><a href="#" data-i18n="cat_abstract">Abstrato</a></li>
+                    <li><a href="#" data-i18n="cat_tech">Tecnologia</a></li>
+                    <li><a href="#" data-i18n="cat_space">Espaço</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Contato</h4>
+                <h4 data-i18n="footer_contact">Contato</h4>
                 <ul>
-                    <li><a href="mailto:defaullcontato@gmail.com">📧 defaullcontato@gmail.com</a></li>
-                    <li><a href="tel:+5511999999999">📱 (11) 99999-9999</a></li>
+                    <li><a href="mailto:defaultcontato@gmail.com">📧 defaultcontato@gmail.com</a></li>
+                    <li><a href="tel:+5511999999999"> (11) 99999-9999</a></li>
                     <li><a href="#">📍 São Paulo, Brasil</a></li>
-                    <li><a href="#">🔗 YouTube</a></li>
-                    <li><a href="#">🔗 Instagram</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2026 Wallpapers Hub by NickDev. Todos os direitos reservados.</p>
+            <p data-i18n="footer_rights">© 2026 Wallpapers Hub by NickDev. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <!-- Lightbox Modal -->
+    <!-- ===== AUTH MODALS ===== -->
+    <div class="auth-modal-overlay" id="loginModal">
+        <div class="auth-modal">
+            <button class="auth-modal-close" onclick="closeAuthModal('login')">✕</button>
+            <div class="auth-modal-header">
+                <h2 data-i18n="login_title">Entrar na sua conta</h2>
+                <p data-i18n="login_subtitle">Acesse seus favoritos e configurações</p>
+            </div>
+            <div class="auth-social-buttons">
+                <button class="auth-social-btn google" onclick="socialLogin('google')">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Google
+                </button>
+                <button class="auth-social-btn github" onclick="socialLogin('github')">
+                    <svg class="social-icon github-icon" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </button>
+            </div>
+            <div class="auth-divider">ou</div>
+            <form class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label data-i18n="email">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="password">Senha</label>
+                    <input type="password" id="loginPassword" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">👁️</button>
+                </div>
+                <div class="auth-form-footer">
+                    <label class="auth-remember">
+                        <input type="checkbox" id="rememberMe">
+                        <span data-i18n="remember_me">Lembrar de mim</span>
+                    </label>
+                    <a href="#" class="auth-forgot" data-i18n="forgot_password">Esqueci a senha</a>
+                </div>
+                <button type="submit" class="auth-submit-btn" id="loginSubmitBtn" data-i18n="btn_enter">Entrar</button>
+            </form>
+            <div class="auth-switch">
+                <span data-i18n="no_account">Não tem conta?</span>
+                <a href="#" onclick="switchAuthModal('login', 'signup')" data-i18n="create_account">Criar conta</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal-overlay" id="signupModal">
+        <div class="auth-modal">
+            <button class="auth-modal-close" onclick="closeAuthModal('signup')">✕</button>
+            <div class="auth-modal-header">
+                <h2 data-i18n="signup_title">Criar sua conta</h2>
+                <p data-i18n="signup_subtitle">Junte-se à comunidade Wallpapers Hub</p>
+            </div>
+            <div class="auth-social-buttons">
+                <button class="auth-social-btn google" onclick="socialLogin('google')">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Google
+                </button>
+                <button class="auth-social-btn github" onclick="socialLogin('github')">
+                    <svg class="social-icon github-icon" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </button>
+            </div>
+            <div class="auth-divider">ou</div>
+            <form class="auth-form" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label data-i18n="full_name">Nome completo</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="email">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="password">Senha</label>
+                    <input type="password" id="signupPassword" required oninput="displayPasswordStrength(this.value)">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signupPassword', this)">👁️</button>
+                    <div id="passwordStrength"></div>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="confirm_password">Confirmar senha</label>
+                    <input type="password" id="signupConfirmPassword" required oninput="checkPasswordMatch()">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signupConfirmPassword', this)">👁️</button>
+                    <div id="passwordMatch"></div>
+                </div>
+                <label class="auth-terms">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <span data-i18n="accept_terms">Aceito os termos de uso e política de privacidade</span>
+                </label>
+                <button type="submit" class="auth-submit-btn" data-i18n="btn_signup">Criar conta</button>
+            </form>
+            <div class="auth-switch">
+                <span data-i18n="has_account">Já tem conta?</span>
+                <a href="#" onclick="switchAuthModal('signup', 'login')" data-i18n="do_login">Fazer login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROFILE MODAL ===== -->
+    <div class="profile-modal-overlay" id="profileModal">
+        <div class="profile-modal">
+            <button class="profile-modal-close" onclick="closeProfileModal()">✕</button>
+            <div class="profile-modal-tabs">
+                <button class="profile-tab active" data-tab="profile" onclick="switchProfileTab('profile')">
+                    <span data-i18n="profile_tab">👤 Perfil</span>
+                </button>
+                <button class="profile-tab" data-tab="favorites" onclick="switchProfileTab('favorites')">
+                    <span data-i18n="favorites_tab">♡ Favoritos</span>
+                </button>
+                <button class="profile-tab" data-tab="settings" onclick="switchProfileTab('settings')">
+                    <span data-i18n="settings_tab">️ Config</span>
+                </button>
+            </div>
+
+            <div class="profile-tab-content active" id="tab-profile">
+                <div class="profile-info-card">
+                    <div class="profile-avatar-large" id="profileModalAvatar">
+                        <img src="" alt="Avatar">
+                    </div>
+                    <h3 id="profileModalName">Usuário</h3>
+                    <p id="profileModalEmail">user@email.com</p>
+                    <p class="profile-member-since" id="profileModalSince" data-i18n="member_since">Membro desde: -</p>
+                </div>
+                <div class="profile-stats-card">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value" id="profileStatFavs">0</div>
+                        <div class="profile-stat-label" data-i18n="favorites_count">Favoritos</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value" id="profileStatDownloads">0</div>
+                        <div class="profile-stat-label" data-i18n="downloads_count">Downloads</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tab-content" id="tab-favorites">
+                <div class="favorites-header">
+                    <h3 data-i18n="your_favorites">Seus Wallpapers Favoritos</h3>
+                    <span class="favorites-count" id="favoritesCount">0 itens</span>
+                </div>
+                <div class="favorites-grid" id="favoritesGrid"></div>
+            </div>
+
+            <div class="profile-tab-content" id="tab-settings">
+                <div class="settings-group">
+                    <h4 data-i18n="profile_tab">Conta</h4>
+                    <button class="settings-btn" onclick="openEditProfile()">
+                        <span>✏️</span>
+                        <span data-i18n="edit_profile">Editar perfil</span>
+                    </button>
+                    <button class="settings-btn" onclick="changePassword()">
+                        <span>🔒</span>
+                        <span data-i18n="change_password">Alterar senha</span>
+                    </button>
+                </div>
+                <div class="settings-group danger-zone">
+                    <h4 data-i18n="danger_zone">Zona de perigo</h4>
+                    <button class="settings-btn danger" onclick="deleteAccount()">
+                        <span>🗑️</span>
+                        <span data-i18n="delete_account">Excluir conta</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LIGHTBOX ===== -->
     <div class="lightbox" id="lightbox">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
         <div class="lightbox-content">
             <img src="" alt="" class="wallpaper-img" id="lightboxImg">
         </div>
         <div class="lightbox-info">
-            <h3 id="lightboxTitle">Nome do Wallpaper</h3>
+            <h3 id="lightboxTitle">Título</h3>
+            
             <div class="lightbox-actions">
-                <button class="btn-primary-action" onclick="downloadWall(currentLightboxTitle)">⬇ Download</button>
-                <button class="btn-secondary-action" onclick="toggleFavorite()">♡ Favoritar</button>
+                <button class="btn-primary-action" id="lightboxDownload" onclick="downloadWall(currentLightboxTitle, currentLightboxId)">
+                    <span data-i18n="btn_download">⬇ Download</span>
+                </button>
+                <button class="btn-secondary-action" id="lightboxFavorite" onclick="toggleFavoriteFromLightbox()">
+                    <span data-i18n="btn_favorite">♡ Favoritar</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Mini Music Player -->
+    <!-- ===== MINI MUSIC PLAYER ===== -->
+    <button class="toggle-player-btn" id="togglePlayerBtn" onclick="togglePlayer()">🎵</button>
     <div class="mini-player" id="miniPlayer">
-    <div class="player-header">
-        <div class="player-info">
-            <img src="" alt="Cover" class="player-cover" id="playerCover">
-            <div class="player-details">
-                <div class="player-title" id="playerTitle">Carregando...</div>
-                <div class="player-artist" id="playerArtist">-</div>
+        <div class="player-header">
+            <div class="player-info">
+                <img src="" alt="Cover" class="player-cover" id="playerCover">
+                <div class="player-details">
+                    <div class="player-title" id="playerTitle">Carregando...</div>
+                    <div class="player-artist" id="playerArtist">-</div>
+                </div>
             </div>
+            <button class="player-close" onclick="togglePlayer()">✕</button>
         </div>
-        <button class="player-close" onclick="togglePlayer()">✕</button>
-    </div>
-    <div class="player-controls">
-        <button class="control-btn" onclick="previousTrack()">⏮</button>
-        <button class="control-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
-        <button class="control-btn" onclick="nextTrack()">⏭</button>
-    </div>
-    <div class="player-progress">
-        <span class="current-time" id="currentTime">0:00</span>
-        <input type="range" class="progress-bar" id="progressBar" value="0" min="0" max="100">
-        <span class="duration" id="duration">0:00</span>
-    </div>
-    <div class="player-volume">
-        <span id="volumeIcon" onclick="toggleMute()" style="cursor: pointer;">🔉</span>
-        <input type="range" class="volume-bar" id="volumeBar" value="20" min="0" max="100">
-    </div>
-    <audio id="audioPlayer"></audio>
-</div>
-
-    <!-- Toggle Player Button -->
-    <button class="toggle-player-btn" id="togglePlayerBtn" onclick="togglePlayer()">▶</button>
-
-    <!-- Comments Hub -->
-    <div class="comments-hub" id="commentsHub">
-    <div class="comments-header">
-        <h3>💬 Comentários</h3>
-        <button class="comments-close" onclick="toggleComments()">✕</button>
-    </div>
-    <div class="comments-content">
-        <div class="comments-list" id="commentsList">
-            <div class="no-comments">
-                <p>Nenhum comentário ainda.</p>
-                <small>Seja o primeiro a comentar!</small>
-            </div>
+        <div class="player-controls">
+            <button class="control-btn" onclick="previousTrack()">⏮</button>
+            <button class="control-btn play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+            <button class="control-btn" onclick="nextTrack()">⏭</button>
         </div>
-        <form class="comments-form" id="commentsForm" action="https://formspree.io/f/mkoanqad" method="POST">
-             <input type="text" name="name" class="form-input" id="commentName" placeholder="Nome *" required>
-             <input type="email" name="email" class="form-input" id="commentEmail" placeholder="Email *" required>
-             <textarea name="message" class="form-input" id="commentText" placeholder="Seu comentário *" required rows="3"></textarea>
-             <input type="hidden" name="_subject" value="Novo comentário - Wallpapers Hub">
-             <button type="submit" class="submit-btn" id="submitBtn">Enviar comentário</button>
-             <p id="formStatus" class="form-status"></p>
-</form>
+        <div class="player-progress">
+            <span class="current-time" id="currentTime">0:00</span>
+            <input type="range" class="progress-bar" id="progressBar" min="0" max="100" value="0">
+            <span class="duration" id="duration">0:00</span>
+        </div>
+        <div class="player-volume">
+            <span id="volumeIcon" onclick="toggleMute()">🔉</span>
+            <input type="range" class="volume-bar" id="volumeBar" min="0" max="100" value="20">
+        </div>
+        <audio id="audioPlayer" preload="auto"> </audio>
     </div>
-</div>
 
-    <!-- Toggle Comments Button -->
+    <!-- ===== COMMENTS HUB ===== -->
     <button class="toggle-comments-btn" id="toggleCommentsBtn" onclick="toggleComments()">💬</button>
+    <div class="comments-hub" id="commentsHub">
+        <div class="comments-header">
+            <h3 data-i18n="comments_title">💬 Comentários</h3>
+            <button class="comments-close" onclick="toggleComments()">✕</button>
+        </div>
+        <div class="comments-content">
+            <div class="comments-list" id="commentsList">
+                <div class="no-comments">
+                    <p data-i18n="no_comments">Nenhum comentário ainda.</p>
+                    <small data-i18n="be_first">Seja o primeiro a comentar!</small>
+                </div>
+            </div>
+            <form class="comments-form" id="commentsForm" onsubmit="submitComment(event)">
+                <input type="text" class="form-input" id="commentName" placeholder="Seu nome" required>
+                <input type="email" class="form-input" id="commentEmail" placeholder="Seu email" required>
+                <textarea class="form-input" id="commentText" placeholder="Escreva seu comentário..." required></textarea>
+                <button type="submit" class="submit-btn" id="submitBtn" data-i18n="btn_send_comment">Enviar comentário</button>
+                <div class="form-status" id="formStatus"></div>
+            </form>
+        </div>
+    </div>
 
-    <!-- Scroll to Top Button -->
+    <!-- Scroll Top -->
     <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
-
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
