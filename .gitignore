@@ -1,8 +1,7 @@
-# Configurações sensíveis
+# Ignorar arquivos com credenciais
 config.js
 
-# Outros arquivos comuns
+# Outros arquivos comuns a serem ignorados
 node_modules/
 .DS_Store
 *.log
-.env
