@@ -1,0 +1,8 @@
+# Configurações sensíveis
+config.js
+
+# Outros arquivos comuns
+node_modules/
+.DS_Store
+*.log
+.env

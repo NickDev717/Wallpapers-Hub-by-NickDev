@@ -1,29 +1,22 @@
 // ===== FIREBASE CONFIGURATION =====
-const firebaseConfig = {
-    enabled: true,
-    apiKey: "AIzaSyDsSxb9bS_RCslV_9dllI2SwtPtViDe1V0",
-    authDomain: "wallpapers-hub-130f9.firebaseapp.com",
-    projectId: "wallpapers-hub-130f9",
-    storageBucket: "wallpapers-hub-130f9.firebasestorage.app",
-    messagingSenderId: "332079114333",
-    appId: "1:332079114333:web:cd8e02d63f4337babf45b4",
-};
-const EMAILJS_CONFIG = {
-    serviceId: "service_4pe3q7q",
-    templateId: "template_c5oz0ho",
-    toEmail: "defaultcontato@gmail.com",
-};
-if (typeof firebase !== "undefined") {
-    firebase.initializeApp(firebaseConfig);
+// As credenciais agora vêm do arquivo config.js
+if (typeof window.FIREBASE_CONFIG === 'undefined') {
+    console.error('Arquivo config.js não encontrado ou mal configurado!');
+    showNotification('Erro: Configurações não carregadas', 'error');
+} else {
+    firebase.initializeApp(window.FIREBASE_CONFIG);
     var auth = firebase.auth();
     var db = firebase.firestore();
     var storage = firebase.storage();
-}
-if (typeof firebase === 'undefined') {
-    console.error('Firebase SDK não carregado!');
-    showNotification('Erro: Firebase não inicializado', 'error');
-} else {
     console.log('Firebase inicializado com sucesso');
+}
+
+// ===== EMAILJS CONFIGURATION =====
+if (typeof window.EMAILJS_CONFIG === 'undefined') {
+    console.error('Configurações do EmailJS não encontradas');
+} else {
+    emailjs.init(window.EMAILJS_CONFIG.publicKey);
+    console.log('EmailJS inicializado com sucesso');
 }
 
 // ===== GLOBAL VARIABLES =====
